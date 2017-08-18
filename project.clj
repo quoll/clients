@@ -1,4 +1,4 @@
-(defproject quoll/clients "0.1.2"
+(defproject quoll/clients "0.1.3-SNAPSHOT"
   :description "Functions for clients to talk to services."
   :url "https://github.com/quoll/clients"
   :license {:name "Eclipse Public License"
