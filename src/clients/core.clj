@@ -64,6 +64,12 @@
   (let [r (/ (* x p) 100)]
     (+ (- x r) (rand-int (inc (* 2 r)))))))
 
+(defn jitter-seq
+  "Creates a lazy seq that dynamically applies jitter to another seq."
+  [[f & r]]
+  (when f
+    (cons (jitter f) (lazy-seq (jitter-seq r)))))
+
 (def exponential-plan
   "Exponentially increasing delays starting at the delay seed, and doubling each time."
   (iterate (partial * 2) delay-seed))
@@ -74,11 +80,11 @@
 
 (def exponential-jitter-plan
   "Exponentially increasing delays with +-5% jitter"
-  (map jitter exponential-plan))
+  (jitter-seq exponential-plan))
 
 (def linear-jitter-plan
   "Linearly increasing delays with +-5% jitter"
-  (map jitter linear-plan))
+  (jitter-seq linear-plan))
 
 (def ^:dynamic *default-plan* exponential-jitter-plan)
 
